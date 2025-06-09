@@ -16,9 +16,14 @@ export default function CourseRoutes(app) {
         res.send(courses); 
     }); 
     app.post("/api/courses", (req, res) => {
+       try { 
     const course = req.body;
     const newCourse = dao.createCourse(course);
     res.send(newCourse);
+    } catch (error) {
+            console.error("Error creating course:", error);
+            res.status(500).send({ error: error.message });
+        }
     });
 
     app.delete("/api/courses/:courseId", (req, res) => { 
@@ -27,10 +32,23 @@ export default function CourseRoutes(app) {
         res.send(status); 
     });
     app.put("/api/courses/:courseId", (req, res) => { 
+        try {
         const { courseId } = req.params; 
         const courseUpdates = req.body; 
-        const status = dao.updateCourse(courseId, courseUpdates); 
-        res.send(status); });
+        console.log("PUT /api/courses/:courseId called");
+            console.log("Course ID:", courseId);
+            console.log("Course Updates:", courseUpdates);
+        const updatedCourse = dao.updateCourse(courseId, courseUpdates); 
+        console.log("Course updated successfully, returning:", updatedCourse);
+            res.json(updatedCourse);
+        //res.send(updatedCourse);
+    } catch (error) {
+            console.error("Error in PUT /api/courses/:courseId:", error);
+            res.status(500).json({ 
+                error: error.message,
+                stack: error.stack 
+            });
+        } });
     app.get("/api/courses/:courseId/modules", (req, res) => { 
         const { courseId } = req.params; 
         const modules = modulesDao.findModulesForCourse(courseId); 
