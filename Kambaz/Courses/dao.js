@@ -22,40 +22,12 @@ export function deleteCourse(courseId) {
     Database.enrollments = enrollments.filter( 
         (enrollment) => enrollment.course !== courseId 
     );
-    return { status: "Course deleted" };
+
 }
 export function updateCourse(courseId, courseUpdates) { 
-    try {
-        console.log("DAO updateCourse called with:", { courseId, courseUpdates });
-        if (!Database.courses || !Array.isArray(Database.courses)) {
-            throw new Error("Database.courses is not properly initialized");
-        }
-        
-        console.log("Current courses count:", Database.courses.length);
-        const courseIndex = Database.courses.findIndex((course) => {
-            console.log("Comparing:", course._id, "with", courseId);
-            return String(course._id) === String(courseId);
-        });
-        
-        console.log("Found course index:", courseIndex);
-        if (courseIndex === -1) {
-            throw new Error(`Course with ID ${courseId} not found`);
-        }
-        const originalCourse = Database.courses[courseIndex];
-        console.log("Original course:", originalCourse);
-        const updatedCourse = { 
-            ...originalCourse, 
-            ...courseUpdates,
-            _id: courseId 
-        };
-        console.log("Updated course:", updatedCourse);
-        Database.courses[courseIndex] = updatedCourse;
-        console.log("Course updated successfully");
-        return updatedCourse;
-        } catch (error) {
-        console.error("Error in updateCourse DAO:", error);
-        throw error;
-
+    const course = Database.courses.find((course) => course._id === courseId);
+    Object.assign(course, courseUpdates);
+    return course;
     
     
     };
@@ -65,4 +37,4 @@ export function updateCourse(courseId, courseUpdates) {
     //}
     //Object.assign(course, courseUpdates); 
     //return course; 
-}
+

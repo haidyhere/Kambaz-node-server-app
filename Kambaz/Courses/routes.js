@@ -40,8 +40,8 @@ export default function CourseRoutes(app) {
             console.log("Course Updates:", courseUpdates);
         const updatedCourse = dao.updateCourse(courseId, courseUpdates); 
         console.log("Course updated successfully, returning:", updatedCourse);
-            res.json(updatedCourse);
-        //res.send(updatedCourse);
+            
+        res.send(updatedCourse);
     } catch (error) {
             console.error("Error in PUT /api/courses/:courseId:", error);
             res.status(500).json({ 
