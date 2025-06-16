@@ -26,11 +26,11 @@ app.use(cors(
     {credentials: true, 
     origin: [
         //process.env.NETLIFY_URL || 
-    "http://localhost:5173", "https://a6--deploys-for-kanbas-react-web-app.netlify.app",
-"https://a6--deploys-for-kanbas-react-web-app.netlify.app/" ]
+    "http://localhost:5173", "https://a6--deploys-for-kanbas-react-web-app.netlify.app" ]
 }));
 
 app.use(express.json());
+
 const sessionOptions = { 
     secret: process.env.SESSION_SECRET || "kambaz", 
     resave: false, 
@@ -45,8 +45,6 @@ if (process.env.NODE_ENV !== "development") {
     }; 
 } 
 app.use(session(sessionOptions));
-
-
 
 Hello(app);
 Lab5(app);
