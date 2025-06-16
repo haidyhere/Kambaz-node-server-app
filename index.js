@@ -25,7 +25,7 @@ app.use(cors(
     {credentials: true, 
     origin: [
         //process.env.NETLIFY_URL || 
-    "http://localhost:5173", "https://a5--deploys-for-kanbas-react-web-app.netlify.app" ]
+    "http://localhost:5173", "https://a6--deploys-for-kanbas-react-web-app.netlify.app" ]
 }));
 const sessionOptions = { 
     secret: process.env.SESSION_SECRET || "kambaz", 
