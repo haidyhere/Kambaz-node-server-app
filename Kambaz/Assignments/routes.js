@@ -14,7 +14,7 @@ export default function AssignmentRoutes(app) {
     try{
     const { courseId } = req.params;
     const assignment = { ...req.body, course: courseId };
-    const newAssignment = dao.createAssignment(assignment);
+    const newAssignment = await dao.createAssignment(assignment);
     res.json(newAssignment);
     } catch (e) {
     console.error("Create assignment error ▶", e);  
@@ -27,6 +27,7 @@ export default function AssignmentRoutes(app) {
   });
   app.delete("/api/assignments/:assignmentId", async (req, res) => {
     const { assignmentId } = req.params;
+    
     res.json(await dao.deleteAssignment(assignmentId));
   });
 }

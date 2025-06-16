@@ -1,25 +1,33 @@
-import Database from "../Database/index.js";
+//import Database from "../Database/index.js";
 import { v4 as uuidv4 } from "uuid";
+import model from "./model.js";
 
-export function findAssignmentsForCourse(courseId) {
-  const { assignments } = Database;
-  return assignments.filter((a) => a.course === courseId);
+export async function findAssignmentsForCourse(courseId) {
+  return await model.find({course: courseId});
+  //const { assignments } = Database;
+  //return assignments.filter((a) => a.course === courseId);
 }
-export function findAssignmentById(assignmentId) {
-  const { assignments } = Database;
-  return assignments.find((a) => a._id === assignmentId);
+export async function findAssignmentById(assignmentId) {
+  return await model.findById(assignmentId);
+  //const { assignments } = Database;
+  //return assignments.find((a) => a._id === assignmentId);
 }
-export function createAssignment(assignment) {
+export async function createAssignment(assignment) {
   const newAssignment = { ...assignment, _id: uuidv4() };
-  Database.assignments = [...Database.assignments, newAssignment];
-  return newAssignment;
+  const created = await model.create(newAssignment);
+  return created;
+  //Database.assignments = [...Database.assignments, newAssignment];
+  //return newAssignment;
 }
-export function updateAssignment(assignmentId, updates) {
-  const assignment = findAssignmentById(assignmentId);
-  Object.assign(assignment, updates);
-  return assignment;
+export async function updateAssignment(assignmentId, updates) {
+  await model.updateOne({ _id: assignmentId }, { $set: updates });
+  return await model.findById(assignmentId);
+  //const assignment = findAssignmentById(assignmentId);
+  //Object.assign(assignment, updates);
+  //return assignment;
 }
-export function deleteAssignment(assignmentId) {
-  const { assignments } = Database;
-  Database.assignments = assignments.filter((a) => a._id !== assignmentId);
+export async function deleteAssignment(assignmentId) {
+  return await model.deleteOne({ _id: assignmentId });
+  //const { assignments } = Database;
+  //Database.assignments = assignments.filter((a) => a._id !== assignmentId);
 }
